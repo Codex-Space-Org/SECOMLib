@@ -94,7 +94,9 @@ public class SecomV2ExceptionMapper implements ExceptionMapper<Exception>, Conte
     public Response toResponse(Exception ex) {
         // This is not our error, propagate
         if(!this.uriInfo.getPath().startsWith("/" + SecomConstants.SECOM_VERSION)) {
-            final PathSegment secomVersion = uriInfo.getPathSegments().getFirst();
+            final PathSegment secomVersion = uriInfo.getPathSegments().stream()
+                    .findFirst()
+                    .orElse(null);
             final ExceptionMapper<Exception> secomExceptionMapper = Optional.ofNullable(secomVersion)
                     .map(PathSegment::toString)
                     .map(String::toUpperCase)
