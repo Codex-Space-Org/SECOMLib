@@ -34,4 +34,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mvn -B -DskipTests deploy \
-            -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}
+            -DaltDeploymentRepository=github::https://maven.pkg.github.com/${{ github.repository }} \
+            -DaltSnapshotDeploymentRepository=github::https://maven.pkg.github.com/${{ github.repository }}
