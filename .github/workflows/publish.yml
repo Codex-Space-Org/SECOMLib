@@ -25,14 +25,16 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: maven
-          server-id: github
+          server-id: github          # must match the <id> or alt repo id
           server-username: GITHUB_ACTOR
-          server-password: ${{ secrets.GITHUB_TOKEN }}
+          server-password: GITHUB_TOKEN   # <– env var name, not the secret itself
+
 
       - name: Build and publish to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mvn -B -DskipTests deploy \
-            -DaltDeploymentRepository=github::https://maven.pkg.github.com/${{ github.repository }} \
-            -DaltSnapshotDeploymentRepository=github::https://maven.pkg.github.com/${{ github.repository }}
+          -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }} \
+          -DaltSnapshotDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}
+
